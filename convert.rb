@@ -10,7 +10,13 @@ file   = File.open(ARGV[1], "a")
 xml = File.read(ARGV[0])
 doc= REXML::Document.new(xml)
 
+# order alphabetically
+result = []
 doc.elements.each('/resources/string') do |p|
-  file.puts '  ' + p.attributes['name']+': "'+ p.text + '"'
+  result << ('  ' + p.attributes['name']+': "'+ p.text + '"')
 end
+result = result.sort{|a, b| a.downcase <=> b.downcase}
 
+result.each do |r|
+  file.puts r
+end
